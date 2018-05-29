@@ -3,6 +3,8 @@ This crate provides a Rusty implementation of the XTEA cipher, written in Rust.
 
 This crate also provides convenience methods for ciphering and deciphering `u8` slices
 and Read streams.
+
+See <https://en.wikipedia.org/wiki/XTEA> for more information on the XTEA cipher.
 */
 
 extern crate byteorder;
