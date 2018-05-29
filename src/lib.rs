@@ -8,7 +8,7 @@ and Read streams.
 extern crate byteorder;
 
 use byteorder::{ByteOrder, ReadBytesExt, WriteBytesExt};
-use std::{error, io::{Read, Result, Write}, io::Cursor, num::Wrapping};
+use std::{io::{Read, Result, Write}, io::Cursor, num::Wrapping};
 
 /// Struct containing the `XTEA` info.
 /// See <https://en.wikipedia.org/wiki/XTEA> for more information
@@ -145,7 +145,7 @@ impl XTEA {
 	/// ```
 	/// extern crate xtea;
 	/// extern crate byteorder;
-	/// 
+	///
 	/// use xtea::XTEA;
 	///	use byteorder::BE;
 	///
@@ -250,7 +250,7 @@ impl XTEA {
 			//An error parsing the first value means we should stop parsing, not fail
 			input_buf[0] = match input.read_u32::<B>() {
 				Ok(val) => val,
-				Err(e) => break
+				Err(_) => break
 			};
 			input_buf[1] = input.read_u32::<B>()?;
 
