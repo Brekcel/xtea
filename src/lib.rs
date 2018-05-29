@@ -5,15 +5,20 @@ This crate also provides convenience methods for ciphering and deciphering `u8` 
 and Read streams.
 
 See <https://en.wikipedia.org/wiki/XTEA> for more information on the XTEA cipher.
+
+This crate makes use of Wrapping<u32> in order to bypass Rusts' arithmetic overflow panics since the algorithm
+relies on overflowing **wrapping** around, not panicking.
 */
 
 extern crate byteorder;
 
 use byteorder::{ByteOrder, ReadBytesExt, WriteBytesExt};
-use std::{io::{Read, Result, Write}, io::Cursor, num::Wrapping};
+use std::{io::{Cursor, Read, Result, Write}, num::Wrapping};
 
 /// Struct containing the `XTEA` info.
+///
 /// See <https://en.wikipedia.org/wiki/XTEA> for more information
+///
 #[derive(Debug)]
 pub struct XTEA {
 	key: [Wrapping<u32>; 4],
@@ -294,6 +299,7 @@ mod tests {
 
 	#[test]
 	fn u8_slice() {
+		// The two 0's at the end pad the message to 32 bytes. Needed so that input is divisible by 8.
 		let input = b"Hello. Performing a test here.00";
 
 		let xtea = XTEA::new([0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
