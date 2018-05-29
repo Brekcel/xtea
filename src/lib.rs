@@ -272,11 +272,10 @@ impl XTEA {
 #[cfg(test)]
 mod tests {
 	use byteorder::BE;
-	use std::str;
 	use super::XTEA;
 
 	#[test]
-	fn overflow() {
+	fn en_de_cipher() {
 		let xtea = XTEA::new([0xffffffff; 4]);
 		let input = [1234u32, 5678u32];
 
@@ -310,7 +309,7 @@ mod tests {
 			xtea.decipher_u8slice::<BE>(&encrypted, &mut output);
 			output
 		};
-		println!("Decryted: {}", str::from_utf8(&decrypted[..]).unwrap());
+
 		assert_eq!(input, &decrypted);
 	}
 
@@ -332,7 +331,6 @@ mod tests {
 			output
 		};
 
-		println!("Decryted: {:?}", &decrypted);
 		assert_eq!(input, decrypted);
 	}
 }
