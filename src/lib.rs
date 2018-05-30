@@ -34,7 +34,7 @@ const DELTA: Wrapping<u32> = Wrapping(0x9E3779B9);
 impl XTEA {
 	/// Creates a new `XTEA` cipher using the given key.
 	#[inline]
-	pub fn new(key: [u32; 4]) -> Self {
+	pub fn new(key: &[u32; 4]) -> Self {
 		Self::new_with_rounds(key, DEFAULT_ROUNDS)
 	}
 
@@ -46,7 +46,7 @@ impl XTEA {
 	///
 	/// If num_rounds is NOT divisible by 2.
 	#[inline]
-	pub fn new_with_rounds(key: [u32; 4], num_rounds: u32) -> Self {
+	pub fn new_with_rounds(key: &[u32; 4], num_rounds: u32) -> Self {
 		assert_eq!(num_rounds & 1, 0, "num_rounds was not divisible by 2.");
 		let key = [Wrapping(key[0]), Wrapping(key[1]), Wrapping(key[2]), Wrapping(key[3])];
 		let num_rounds = Wrapping(num_rounds);
@@ -121,7 +121,7 @@ impl XTEA {
 	///
 	/// let input: Box<[u8]> = vec![10u8; 16].into_boxed_slice();
 	///
-	///	let xtea = XTEA::new([0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
+	///	let xtea = XTEA::new(&[0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
 	///
 	///	let encrypted = {
 	///		let mut output = vec![0u8; input.len()].into_boxed_slice();
@@ -158,7 +158,7 @@ impl XTEA {
 	///
 	/// let input: Box<[u8]> = vec![10u8; 16].into_boxed_slice();
 	///
-	///	let xtea = XTEA::new([0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
+	///	let xtea = XTEA::new(&[0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
 	///
 	///	let encrypted = {
 	///		let mut output = vec![0u8; input.len()].into_boxed_slice();
@@ -281,7 +281,7 @@ mod tests {
 
 	#[test]
 	fn en_de_cipher() {
-		let xtea = XTEA::new([0xffffffff; 4]);
+		let xtea = XTEA::new(&[0xffffffff; 4]);
 		let input = [1234u32, 5678u32];
 
 		let encrypted = {
@@ -302,7 +302,7 @@ mod tests {
 		// The two 0's at the end pad the message to 32 bytes. Needed so that input is divisible by 8.
 		let input = b"Hello. Performing a test here.00";
 
-		let xtea = XTEA::new([0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
+		let xtea = XTEA::new(&[0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
 
 		let encrypted = {
 			let mut output = [0; 32];
@@ -323,7 +323,7 @@ mod tests {
 	fn boxed_slice() {
 		let input: Box<[u8]> = vec![10u8; 16].into_boxed_slice();
 
-		let xtea = XTEA::new([0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
+		let xtea = XTEA::new(&[0x1380C5B5, 0x28037DF9, 0x26E314A2, 0xC57684E4]);
 
 		let encrypted = {
 			let mut output = vec![0u8; input.len()].into_boxed_slice();

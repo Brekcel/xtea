@@ -6,11 +6,12 @@ and Read streams.
 
 See <https://en.wikipedia.org/wiki/XTEA> for more information on the XTEA cipher.
 
-## Note:
+## Note
+
 This crate should only be used if you're working on an existing application that uses XTEA.
 If you're wanting to implement an encryption or a cipher system in your project DO NOT USE THIS.
 
-## Documentation:
+## Documentation
 
 Run the command `cargo doc` in the directory to generate documentation in ./target/doc/
 
